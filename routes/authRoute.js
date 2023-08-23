@@ -1265,6 +1265,43 @@ router.post("/checkfollow", (req, res) => {
 
 
 
+// last me add kiya
+router.post('/getuserbyid', (req, res) => {
+    const {userid } = req.body;
+
+    User.findById({ _id: userid })
+        .then(saveduser => {
+            if (!saveduser) {
+                return res.status(422).json({ error: "Invalid Credentials" });
+            }
+            //    console.log(saveduser);
+
+            let data = {
+                _id: saveduser._id,
+                username: saveduser.username,
+                email: saveduser.email,
+                description: saveduser.description,
+                profilepic: saveduser.profilepic,
+                followers: saveduser.followers,
+                following: saveduser.following,
+                posts: saveduser.posts
+            }
+
+            // console.log(data);
+
+            res.status(200).send({
+                user: data,
+                message: "User Found"
+            })
+        })
+        .catch(
+            err => {
+                console.log('error in getuserbyid ');
+            }
+        )
+})
+
+
 
 
 
